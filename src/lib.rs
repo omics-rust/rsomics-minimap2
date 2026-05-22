@@ -37,7 +37,28 @@ pub fn align(reference: &Path, query: &Path, preset: &str) -> Result<String> {
             .map_err(|e| RsomicsError::InvalidInput(format!("mapping: {e}")))?;
 
         for m in mappings {
-            writeln!(output, "{m:?}").ok();
+            // PAF: qname qlen qstart qend strand tname tlen tstart tend nmatch alnlen mapq
+            let strand = if matches!(m.strand, minimap2::Strand::Forward) {
+                '+'
+            } else {
+                '-'
+            };
+            let qname = m.query_name.as_ref().map_or("*", |s| s.as_str());
+            let tname = m.target_name.as_ref().map_or("*", |s| s.as_str());
+            let qlen = m.query_len.map_or(0, std::num::NonZeroI32::get);
+            writeln!(
+                output,
+                "{qname}\t{qlen}\t{}\t{}\t{strand}\t{tname}\t{}\t{}\t{}\t{}\t{}\t{}",
+                m.query_start,
+                m.query_end,
+                m.target_len,
+                m.target_start,
+                m.target_end,
+                m.match_len,
+                m.block_len,
+                m.mapq
+            )
+            .ok();
         }
     }
 
