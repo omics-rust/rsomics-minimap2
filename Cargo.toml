@@ -12,6 +12,11 @@ description = "Long/short-read aligner — CLI wrapper of minimap2 FFI bindings 
 name = "rsomics-minimap2"
 path = "src/main.rs"
 
+
+[lib]
+name = "rsomics_minimap2"
+path = "src/lib.rs"
+doctest = false
 [dependencies]
 rsomics-common = { version = "0.6" }
 rsomics-help = { version = "0.3" }
