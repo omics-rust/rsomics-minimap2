@@ -50,7 +50,7 @@ impl Tool for Cli {
 pub static HELP: HelpSpec = HelpSpec {
     name: META.name,
     version: META.version,
-    tagline: "Long/short-read aligner (minimap2 FFI wrapper, Quadrant ②).",
+    tagline: "Long/short-read aligner wrapping minimap2 (FFI, Li 2018).",
     origin: Some(Origin {
         upstream: "minimap2",
         upstream_license: "MIT",
